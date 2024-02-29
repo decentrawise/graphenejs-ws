@@ -1,53 +1,57 @@
 {
-  "name": "graphenejs-ws",
-  "version": "0.2.2",
-  "description": "Pure JavaScript Bitshares/Graphene websocket interface for node.js and browsers.",
+  "name": "@decentrawise/graphenejs-ws",
+  "version": "1.0.0",
+  "description": "Pure JavaScript Graphene Protocol websocket interface for node.js and browsers.",
   "browser": {
     "ws": false
   },
   "scripts": {
-    "test": "BABEL_ENV=test mocha --compilers js:babel-core/register --recursive",
-    "test:watch": "npm test -- --watch",
-    "clean": "rm -rf ./cjs/* & rm -rf ./build/* & rm -rf ./es/*",
-    "prebuild": "npm run clean",
-    "build": "BABEL_ENV=cjs babel lib --out-dir cjs",
-    "build-es": "BABEL_ENV=es babel ./lib -d es",
-    "postbuild": "npm run browserify && npm run build-es",
-    "prepublish": "npm run build",
-    "browserify": "NODE_ENV=production browserify cjs/src/ApiInstances.js --standalone grapheneWS -o build/graphenejs-ws.js -d",
-    "postbrowserify": "NODE_ENV=production uglifyjs --compress --mangle --sequences --drop_console --mangle-props --screw-ie8 --output build/graphenejs-ws.min.js -- build/graphenejs-ws.js",
-    "bundle": "npm run browserify && npm run minify"
+    "test": "BABEL_ENV=test mocha --require @babel/register --recursive",
+    "test:watch": "yarn test -- --watch",
+    "test:connection": "BABEL_ENV=test mocha --require @babel/register ./test/Connection --watch",
+    "test:api": "BABEL_ENV=test mocha --require @babel/register ./test/Api --watch",
+    "test:manager": "BABEL_ENV=test mocha --require @babel/register ./test/Manager --watch",
+    "pretest:browser": "NODE_ENV=dev browserify test/*.js -o browser-test/browser-test.js -t [ babelify ]",
+    "test:browser": "BABEL_ENV=test http-server ./browser-test",
+    "clean": "rm -rf ./lib/* & rm -rf ./build/*",
+    "prebuild": "yarn run clean",
+    "build": "babel src -d lib",
+    "postbuild": "yarn run browserify",
+    "prepare": "yarn run build",
+    "browserify": "cross-env NODE_ENV=production browserify lib/index.js --standalone graphene_ws -o build/graphenejs-ws.js -d",
+    "postbrowserify": "cross-env NODE_ENV=production minify build/graphenejs-ws.js --mangle --outFile build/graphenejs-ws.min.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/svk31/graphenejs-ws.git"
+    "url": "git+https://github.com/decentrawise/graphenejs-ws.git"
   },
-  "author": "Sigve Kvalsvik <bitsharesblocks@gmail.com> (https://github.com/svk31)",
-  "contributors": [
-    "James Calfee <james@jcalfee.info> (https://github.com/jcalfee/)"
-  ],
-  "license": "BSD-2-Clause-FreeBSD",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/svk31/graphenejs-ws/issues"
+    "url": "https://github.com/decentrawise/graphenejs-ws/issues"
   },
   "engines": {
-    "node": ">= 6.0.0"
+    "node": ">=16.13.x",
+    "npm": ">=8.2.x",
+    "yarn": ">=1.22.x"
   },
-  "main": "cjs/index.js",
-  "jsnext:main": "es/index.js",
+  "main": "lib/index.js",
   "dependencies": {
-    "ReconnectingWebSocket": "git+https://github.com/bitshares/reconnecting-websocket",
-    "ws": "^1.1.1"
+    "isomorphic-ws": "^4.0.1",
+    "ws": "^8.4.0"
   },
   "devDependencies": {
-    "assert": "^1.3.0",
-    "babel-cli": "^6.18.0",
-    "babel-core": "^6.21.0",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-preset-es2015": "^6.18.0",
-    "babel-preset-stage-1": "^6.16.0",
-    "browserify": "^13.0.1",
-    "mocha": "^2.3.4",
-    "uglifyjs": "^2.4.10"
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.5",
+    "@babel/plugin-proposal-class-properties": "^7.16.5",
+    "@babel/preset-env": "^7.16.5",
+    "@babel/register": "^7.16.5",
+    "assert": "^2.0.0",
+    "babel-minify": "^0.5.2",
+    "babel-preset-minify": "^0.5.1",
+    "babelify": "^10.0.0",
+    "browserify": "^17.0.0",
+    "cross-env": "^7.0.3",
+    "http-server": "^14.0.0",
+    "mocha": "^9.1.3"
   }
 }

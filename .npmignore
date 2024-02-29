@@ -1,5 +1,6 @@
-lib
+src
 test
 examples
-tools
 build
+browser-test
+tools

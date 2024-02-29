@@ -1,11 +1,12 @@
 // Node.js example
 // This example shows how to iterate over all accounts in order determine
-// the holders of a particular asset, in this case OBITS
+// the holders of a particular asset, in this case OBITS. It will do heavy polling so
+// I recommend using a local node
 
-/* running 'npm run build' is necessary before launching the examples */
+/* running 'yarn build' is necessary before launching the examples */
 
-var {Apis} = require("../cjs")
-// let wsString = "wss://bitshares.openledger.info/ws";
+var {Apis} = require("../lib")
+
 let wsStringLocal = "ws://127.0.0.1:8090";
 
 let holders = {};

@@ -1,5 +1,12 @@
+.DS_Store
 .npmrc
+.idea
+.vscode
 npm-debug.log
 node_modules
 cjs
 es
+*.swp
+browser-test/browser-test.js
+lib/
+build/
