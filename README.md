@@ -18,16 +18,14 @@ yarn add @decentrawise/graphenejs-ws
 
 Several examples are available in the /examples folder, and the tests in /test also show how to use the library.
 
-Browser bundles are provided in /build/.
-
-A variable `graphene_ws` will be available in `window` object.
+Browser bundles are provided, see below. A variable `graphene_ws` will be available in `window` object.
 
 For use in a webpack/browserify context, see the example below for how to open a websocket connection to an API and subscribe to any object updates:
 
 ```
 var {Apis} = require("graphenejs-ws");
 Apis.instance("ws://127.0.0.1:8090", true).init_promise.then((res) => {
-    console.log("connected to:", res[0].network);
+    console.log("connected to chain id:", res[0].chain_id);
     Apis.db.set_subscribe_callback( updateListener, true )
 });
 
@@ -57,3 +55,13 @@ __Usage example__
 ## Tests
 
 The tests show several use cases, to run, simply type `yarn test`. The tests require a local Graphene node to be running, as well as an active internet connection.
+
+## Binaries / Browserified bundles
+
+Please have a [look here](https://github.com/decentrawise/graphenejs-ws/releases) to find your desired release.
+
+If you want to build the binaries yourself you can clone this repository and run `yarn`. It will create:
+
+-   Browserified version `build/graphenejs-ws.js`
+-   Browserified and minified (babel) version `build/graphenejs-ws.min.js`
+
